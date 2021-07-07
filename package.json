@@ -1,27 +1,30 @@
 {
-  "name": "dynamic-cdn-webpack-plugin",
-  "version": "4.0.0",
+  "name": "@effortlessmotion/dynamic-cdn-webpack-plugin",
+  "version": "5.0.1",
   "description": "Dynamically get your dependencies from a cdn rather than bundling them in your app",
   "license": "MIT",
   "repository": "mastilver/dynamic-cdn-webpack-plugin",
   "author": {
     "name": "Thomas Sileghem",
     "email": "th.sileghem@gmail.com",
-    "url": "mastilver.com"
+    "url": "https://github.com/mastilver"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10.13.0"
   },
+  "main": "index.js",
   "scripts": {
-    "test": "xo && nyc ava",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "xo && npm run test-compat",
+    "test": "nyc tap test/**/*.test.js",
+    "test-compat": "nvu engines npm test",
+    "lint": "xo",
+    "lint:fix": "xo --fix",
     "version": "all-contributors generate",
-    "build": "babel src --out-dir lib",
     "add-contributor": "all-contributors add"
   },
   "files": [
     "index.js",
-    "lib"
+    "src"
   ],
   "keywords": [
     "webpack",
@@ -35,62 +38,43 @@
     "externals"
   ],
   "dependencies": {
-    "html-webpack-include-assets-plugin": "^1.0.4",
-    "read-pkg-up": "^4.0.0",
-    "resolve-pkg": "^1.0.0"
+    "module-to-cdn": "^3.1.5",
+    "read-pkg-up": "^7.0.1",
+    "resolve-pkg": "^2.0.0"
   },
   "peerDependencies": {
-    "module-to-cdn": "^3.1.1",
-    "webpack": "4"
+    "webpack": ">=5"
   },
   "devDependencies": {
-    "all-contributors-cli": "^5.4.0",
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "codecov": "^3.0.4",
-    "html-webpack-plugin": "^3.0.4",
-    "module-to-cdn": "^3.1.1",
-    "mz": "^2.6.0",
-    "nyc": "^12.0.2",
-    "rimraf": "^2.6.1",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "webpack-manifest-plugin": "2.0.0-rc.2",
-    "xo": "^0.22.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": 8
-          }
-        }
-      ]
-    ]
+    "all-contributors-cli": "^6.20.0",
+    "codecov": "^3.8.2",
+    "html-webpack-plugin": "^5.3.2",
+    "mz": "^2.7.0",
+    "node-version-use": "^0.1.21",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "tap": "^15.0.9",
+    "webpack": "^5.42.0",
+    "webpack-manifest-plugin": "3.1.1",
+    "xo": "^0.40.3"
   },
   "xo": {
     "esnext": true,
     "space": 4,
     "rules": {
       "eqeqeq": "off",
-      "no-eq-null": "off"
+      "no-eq-null": "off",
+      "curly": "off",
+      "import/extensions": "off",
+      "node/file-extension-in-import": "off",
+      "unicorn/prefer-module": "off",
+      "unicorn/prefer-node-protocol": "off",
+      "unicorn/no-array-reduce": "off",
+      "unicorn/prefer-spread": "off",
+      "func-names": "off"
     },
     "ignores": [
       "test/fixtures/**/*.js"
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/**/*.js",
-      "!test/fixtures/output/**/*"
-    ],
-    "babel": "inherit",
-    "require": [
-      "babel-core/register"
     ]
   },
   "nyc": {
